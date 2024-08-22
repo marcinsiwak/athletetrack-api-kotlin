@@ -7,10 +7,10 @@ import io.ktor.server.plugins.contentnegotiation.*
 import kotlinx.serialization.json.Json
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
-import pl.msiwak.di.diModule
-import pl.msiwak.plugins.configureFirebaseAuth
-import pl.msiwak.plugins.configureRouting
-import pl.msiwak.plugins.initialConfiguration
+import pl.msiwak.infrastructure.di.diModule
+import pl.msiwak.infrastructure.config.auth.firebase.configureFirebaseAuth
+import pl.msiwak.infrastructure.config.configureRouting
+import pl.msiwak.infrastructure.config.initialConfiguration
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
