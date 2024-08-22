@@ -11,6 +11,7 @@ import pl.msiwak.infrastructure.di.diModule
 import pl.msiwak.infrastructure.config.auth.firebase.configureFirebaseAuth
 import pl.msiwak.infrastructure.config.configureRouting
 import pl.msiwak.infrastructure.config.initialConfiguration
+import pl.msiwak.infrastructure.di.diMapperModule
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -21,7 +22,7 @@ fun Application.module() {
 
     install(Koin) {
         slf4jLogger()
-        modules(diModule)
+        modules(diModule, diMapperModule)
     }
     install(ContentNegotiation) {
         json(Json {
