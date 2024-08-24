@@ -8,7 +8,7 @@ class GetCategoryUseCaseImpl(
     private val exerciseRepository: ExerciseRepository,
     private val categoryDTOMapper: CategoryDTOMapper
 ) : GetCategoryUseCase {
-    override suspend fun invoke(id: String): CategoryDTO? {
+    override suspend operator fun invoke(id: String): CategoryDTO? {
         val categoryEntity = exerciseRepository.getCategory(id) ?: return null
         return categoryDTOMapper(categoryEntity)
     }

@@ -8,7 +8,7 @@ class GetExerciseUseCaseImpl(
     private val exerciseRepository: ExerciseRepository,
     private val exerciseDTOMapper: ExerciseDTOMapper
 ) : GetExerciseUseCase {
-    override suspend fun invoke(id: String): ExerciseDTO? {
+    override suspend operator fun invoke(id: String): ExerciseDTO? {
         val category = exerciseRepository.getCategoryByExercise(id) ?: return null
         val exercise = category.getExercise(id) ?: return null
         return exerciseDTOMapper(Pair(exercise, category.exerciseType))

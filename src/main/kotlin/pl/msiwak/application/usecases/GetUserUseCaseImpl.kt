@@ -8,7 +8,7 @@ class GetUserUseCaseImpl(
     private val userRepository: UserRepository,
     private val userDTOMapper: UserDTOMapper
 ) : GetUserUseCase {
-    override suspend fun invoke(userId: String): UserDTO? {
+    override suspend operator fun invoke(userId: String): UserDTO? {
         val userEntity = userRepository.getUser(userId) ?: return null
         return userDTOMapper(userEntity)
     }

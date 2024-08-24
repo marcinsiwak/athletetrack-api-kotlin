@@ -9,30 +9,19 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import pl.msiwak.infrastructure.config.auth.firebase.FIREBASE_AUTH
 import pl.msiwak.infrastructure.config.auth.firebase.FirebaseUser
-import pl.msiwak.application.usecases.*
+import pl.msiwak.interfaces.controller.ExerciseController
 import pl.msiwak.interfaces.dtos.CategoryDTO
 import pl.msiwak.interfaces.dtos.ExerciseDTO
 import pl.msiwak.interfaces.dtos.ResultDTO
-import pl.msiwak.application.usecases.GetCategoriesUseCase
-import pl.msiwak.application.usecases.GetCategoryUseCase
-import pl.msiwak.application.usecases.GetExerciseUseCase
 
 fun Route.addExerciseRoute() {
-    val addCategoryUseCase by inject<AddCategoryUseCase>()
-    val addExerciseUseCase by inject<AddExerciseUseCase>()
-    val addResultUseCase by inject<AddResultUseCase>()
-    val getCategoriesUseCase by inject<GetCategoriesUseCase>()
-    val getCategoryUseCase by inject<GetCategoryUseCase>()
-    val getExerciseUseCase by inject<GetExerciseUseCase>()
-    val removeCategoryUseCase by inject<RemoveCategoryUseCase>()
-    val removeExerciseUseCase by inject<RemoveExerciseUseCase>()
-    val removeResultUseCase by inject<RemoveResultUseCase>()
+    val exerciseController by inject<ExerciseController>()
 
     authenticate(FIREBASE_AUTH) {
         get("/categories") {
             with(call) {
                 val principal = principal<FirebaseUser>() ?: return@get respond(HttpStatusCode.Unauthorized)
-                getCategoriesUseCase.invoke(principal.userId).run { respond(HttpStatusCode.OK, this) }
+                exerciseController.getCategories(principal.userId).run { respond(HttpStatusCode.OK, this) }
             }
         }
 
@@ -40,7 +29,7 @@ fun Route.addExerciseRoute() {
             with(call) {
                 val principal = principal<FirebaseUser>() ?: return@post respond(HttpStatusCode.Unauthorized)
                 receive<CategoryDTO>().run {
-                    addCategoryUseCase.invoke(name, exerciseType, principal.userId)
+                    exerciseController.addCategory(name, exerciseType, principal.userId)
                     respond(HttpStatusCode.OK, this)
                 }
             }
@@ -49,7 +38,7 @@ fun Route.addExerciseRoute() {
         get("/category/{id}") {
             with(call) {
                 val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-                getCategoryUseCase.invoke(id)?.let { respond(HttpStatusCode.OK, it) } ?: return@get call.respond(
+                exerciseController.getCategory(id)?.let { respond(HttpStatusCode.OK, it) } ?: return@get call.respond(
                     HttpStatusCode.NotFound
                 )
             }
@@ -58,7 +47,7 @@ fun Route.addExerciseRoute() {
         delete("/category/{id}") {
             with(call) {
                 val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-                removeCategoryUseCase.invoke(id)
+                exerciseController.removeCategory(id)
                 respond(HttpStatusCode.OK)
             }
         }
@@ -66,7 +55,7 @@ fun Route.addExerciseRoute() {
         post("/exercise") {
             with(call) {
                 receive<ExerciseDTO>().run {
-                    addExerciseUseCase.invoke(categoryId, name)
+                    exerciseController.addExercise(categoryId, name)
                     respond(HttpStatusCode.OK, this)
                 }
             }
@@ -75,14 +64,15 @@ fun Route.addExerciseRoute() {
         get("/exercise/{id}") {
             with(call) {
                 val id = parameters["id"] ?: return@get respond(HttpStatusCode.BadRequest)
-                getExerciseUseCase.invoke(id)?.let { respond(HttpStatusCode.OK, it) } ?: respond(HttpStatusCode.NotFound)
+                exerciseController.getExercise(id)?.let { respond(HttpStatusCode.OK, it) }
+                    ?: respond(HttpStatusCode.NotFound)
             }
         }
 
         delete("/exercise/{id}") {
             with(call) {
                 val id = parameters["id"] ?: return@delete respond(HttpStatusCode.BadRequest)
-                removeExerciseUseCase.invoke(id)
+                exerciseController.removeExercise(id)
                 respond(HttpStatusCode.OK)
             }
         }
@@ -90,7 +80,7 @@ fun Route.addExerciseRoute() {
         post("/result") {
             with(call) {
                 receive<ResultDTO>().run {
-                    addResultUseCase.invoke(
+                    exerciseController.addResult(
                         exerciseId = exerciseId,
                         amount = amount,
                         result = result,
@@ -104,7 +94,7 @@ fun Route.addExerciseRoute() {
         delete("/result/{id}") {
             with(call) {
                 val id = parameters["id"] ?: return@delete respond(HttpStatusCode.BadRequest)
-                removeResultUseCase.invoke(id)
+                exerciseController.removeResult(id)
                 respond(HttpStatusCode.OK)
             }
         }

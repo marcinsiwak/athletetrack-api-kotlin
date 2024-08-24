@@ -6,7 +6,7 @@ import pl.msiwak.domain.repositories.ExerciseRepository
 class AddCategoryUseCaseImpl(
     private val exerciseRepository: ExerciseRepository,
 ) : AddCategoryUseCase {
-    override suspend fun invoke(name: String, exerciseType: String, userId: String) {
+    override suspend operator fun invoke(name: String, exerciseType: String, userId: String) {
         val category = CategoryEntity(
             userId = userId,
             name = name,

@@ -12,16 +12,16 @@ import pl.msiwak.infrastructure.config.auth.firebase.FirebaseUser
 import pl.msiwak.application.usecases.AddUserUseCase
 import pl.msiwak.interfaces.dtos.UserDTO
 import pl.msiwak.application.usecases.GetUserUseCase
+import pl.msiwak.interfaces.controller.UserController
 
 fun Route.addUserRoutes() {
-    val addUserUseCase by inject<AddUserUseCase>()
-    val getUserUseCase by inject<GetUserUseCase>()
+    val userController by inject<UserController>()
 
     authenticate(FIREBASE_AUTH) {
         post("/user") {
             with(call) {
                 val principal = principal<FirebaseUser>() ?: return@post call.respond(HttpStatusCode.Unauthorized)
-                receive<UserDTO>().run { addUserUseCase.invoke(name, email, principal.userId) }
+                receive<UserDTO>().run { userController.addUser(name, email, principal.userId) }
                 respond(HttpStatusCode.OK)
             }
         }
@@ -29,7 +29,7 @@ fun Route.addUserRoutes() {
         get("/user") {
             with(call) {
                 val principal = principal<FirebaseUser>() ?: return@get call.respond(HttpStatusCode.Unauthorized)
-                getUserUseCase.invoke(principal.userId)?.let {
+                userController.getUser(principal.userId)?.let {
                     respond(status = HttpStatusCode.OK, message = it)
                 } ?: return@get call.respond(HttpStatusCode.NotFound)
             }

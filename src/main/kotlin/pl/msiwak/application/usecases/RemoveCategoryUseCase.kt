@@ -1,5 +1,5 @@
 package pl.msiwak.application.usecases
 
 interface RemoveCategoryUseCase {
-    suspend fun invoke(categoryId: String)
+    suspend operator fun invoke(categoryId: String)
 }

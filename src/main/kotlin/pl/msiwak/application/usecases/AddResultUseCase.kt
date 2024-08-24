@@ -3,7 +3,7 @@ package pl.msiwak.application.usecases
 import kotlinx.datetime.LocalDateTime
 
 interface AddResultUseCase {
-    suspend fun invoke(
+    suspend operator fun invoke(
         exerciseId: String,
         amount: String,
         result: String,

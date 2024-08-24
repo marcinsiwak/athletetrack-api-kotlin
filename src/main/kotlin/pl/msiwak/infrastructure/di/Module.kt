@@ -8,6 +8,8 @@ import pl.msiwak.infrastructure.database.dao.exercise.ExercisesDao
 import pl.msiwak.infrastructure.database.dao.exercise.ExercisesDaoImpl
 import pl.msiwak.infrastructure.database.dao.user.UserDao
 import pl.msiwak.infrastructure.database.dao.user.UserDaoImpl
+import pl.msiwak.interfaces.controller.ExerciseControllerImpl
+import pl.msiwak.interfaces.controller.UserControllerImpl
 import pl.msiwak.interfaces.mapper.CategoryDTOMapper
 import pl.msiwak.interfaces.mapper.ExerciseDTOMapper
 import pl.msiwak.interfaces.mapper.ResultDTOMapper
@@ -18,15 +20,21 @@ val diModule = module {
     single<AddCategoryUseCase> { AddCategoryUseCaseImpl(get()) }
     single<AddExerciseUseCase> { AddExerciseUseCaseImpl(get()) }
     single<AddResultUseCase> { AddResultUseCaseImpl(get()) }
-    single<GetUserUseCase> { GetUserUseCaseImpl(get()) }
+    single<GetUserUseCase> { GetUserUseCaseImpl(get(), get()) }
     single<GetCategoryUseCase> { GetCategoryUseCaseImpl(get(), get()) }
     single<GetExerciseUseCase> { GetExerciseUseCaseImpl(get(), get()) }
     single<GetCategoriesUseCase> { GetCategoriesUseCaseImpl(get(), get()) }
     single<RemoveCategoryUseCase> { RemoveCategoryUseCaseImpl(get()) }
     single<RemoveExerciseUseCase> { RemoveExerciseUseCaseImpl(get()) }
     single<RemoveResultUseCase> { RemoveResultUseCaseImpl(get()) }
+}
+
+val diRepositoryModule = module {
     single { UserRepository(get()) }
     single { ExerciseRepository(get()) }
+}
+
+val diDaoModule = module {
     single<UserDao> { UserDaoImpl() }
     single<ExercisesDao> { ExercisesDaoImpl() }
 }
@@ -36,4 +44,9 @@ val diMapperModule = module {
     single { ExerciseDTOMapper(get()) }
     single { ResultDTOMapper() }
     single { UserDTOMapper() }
+}
+
+val diControllerModule = module {
+    single { UserControllerImpl(get()) }
+    single { ExerciseControllerImpl(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

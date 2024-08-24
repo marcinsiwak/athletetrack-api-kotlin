@@ -1,5 +1,5 @@
 package pl.msiwak.application.usecases
 
 interface RemoveResultUseCase {
-    suspend fun invoke(resultId: String)
+    suspend operator fun invoke(resultId: String)
 }

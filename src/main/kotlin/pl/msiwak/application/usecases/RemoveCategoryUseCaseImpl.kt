@@ -6,7 +6,7 @@ class RemoveCategoryUseCaseImpl(
     private val exerciseRepository: ExerciseRepository
 ) : RemoveCategoryUseCase {
 
-    override suspend fun invoke(categoryId: String) {
+    override suspend operator fun invoke(categoryId: String) {
         exerciseRepository.removeCategory(categoryId)
     }
 }

@@ -5,7 +5,7 @@ import pl.msiwak.domain.entities.ResultEntity
 import pl.msiwak.domain.repositories.ExerciseRepository
 
 class AddResultUseCaseImpl(private val exerciseRepository: ExerciseRepository) : AddResultUseCase {
-    override suspend fun invoke(
+    override suspend operator fun invoke(
         exerciseId: String,
         amount: String,
         result: String,
