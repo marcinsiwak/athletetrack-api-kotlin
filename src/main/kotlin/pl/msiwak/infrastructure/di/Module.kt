@@ -47,6 +47,6 @@ val diMapperModule = module {
 }
 
 val diControllerModule = module {
-    single { UserControllerImpl(get()) }
+    single { UserControllerImpl(get(), get()) }
     single { ExerciseControllerImpl(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }
