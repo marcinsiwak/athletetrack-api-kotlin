@@ -16,8 +16,8 @@ fun Application.configureRouting() {
                     title { +"Welcome Page" }
                 }
                 body {
-                    h1 { +"Welcome to Ktor" }
-                    p { +"This is a basic welcome page built using Ktor." }
+                    h1 { +"Bartek odpisz proszeee" }
+                    p { +"Bartek odpisz proszeeeee" }
                     a(href = "https://ktor.io") { +"Learn more about Ktor" }
                 }
             }
