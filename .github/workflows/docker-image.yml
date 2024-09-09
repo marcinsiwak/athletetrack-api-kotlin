@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Set environment variable for Firebase
-        run: echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" >> $GITHUB_ENV
+        run: echo FIREBASE_SERVICE_ACCOUNT="${FIREBASE_SERVICE_ACCOUNT}" > .env
 
 #      - name: Create Firebase service account file
 #        run: |
