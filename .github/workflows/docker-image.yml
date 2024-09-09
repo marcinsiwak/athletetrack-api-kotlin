@@ -27,7 +27,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Create Firebase service account file
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > $GITHUB_WORKSPACE/sportplatform-firebase-adminsdk.json
+
       - name: Build app
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $GITHUB_WORKSPACE/sportplatform-firebase-adminsdk.json
         run: ./gradlew build
 
       - name: Set up Docker Buildx
