@@ -27,12 +27,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Create Firebase service account file
-        run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
+      - name: Set environment variable for Firebase
+        run: echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" >> $GITHUB_ENV
 
-      - name: Verify content of the file
-        run: cat src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
+#      - name: Create Firebase service account file
+#        run: |
+#          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
+#
+#      - name: Verify content of the file
+#        run: cat src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
 
       - name: Build app
 #        env:
