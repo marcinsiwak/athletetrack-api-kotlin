@@ -7,7 +7,7 @@ import java.io.InputStream
 
 object FirebaseAdmin {
     private val serviceAccount: InputStream? =
-        System.getenv("FIREBASE_SERVICE_ACCOUNT_KEY")?.byteInputStream()
+        System.getenv("FIREBASE_SERVICE_ACCOUNT")?.byteInputStream()
             ?: this::class.java.classLoader.getResourceAsStream("sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json")
             ?: throw IllegalStateException("Firebase service account not found in environment variables or resources")
 
