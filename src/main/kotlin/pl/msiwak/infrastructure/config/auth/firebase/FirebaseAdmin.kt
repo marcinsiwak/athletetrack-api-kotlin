@@ -14,5 +14,7 @@ object FirebaseAdmin {
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
         .build()
 
-    fun init(): FirebaseApp = FirebaseApp.initializeApp(options)
-}
+    fun init(): FirebaseApp {
+        println("MYLOG: Firebase init")
+        return FirebaseApp.getApps().firstOrNull() ?: FirebaseApp.initializeApp(options)
+    }}
