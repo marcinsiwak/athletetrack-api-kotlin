@@ -17,29 +17,25 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-#      - name: Cache Gradle packages
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Set environment variable for Firebase
-        run: echo FIREBASE_SERVICE_ACCOUNT="${FIREBASE_SERVICE_ACCOUNT}" > .env
-
-#      - name: Create Firebase service account file
-#        run: |
-#          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
-#
-#      - name: Verify content of the file
-#        run: cat src/main/resources/sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'sportplatform-b5318-firebase-adminsdk-egpiw-0065c30f75.json'
+          fileDir: './src/main/resources/'
+          encodedString: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Build app
-#        env:
-#          GOOGLE_APPLICATION_CREDENTIALS: $GITHUB_WORKSPACE/sportplatform-firebase-adminsdk.json
         run: ./gradlew build
 
       - name: Set up Docker Buildx
