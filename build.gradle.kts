@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "msiwak.pl"
-version = "0.0.1"
+version = "1.0.0"
 
 application {
     mainClass.set("pl.msiwak.ApplicationKt")
