@@ -16,7 +16,7 @@ jobs:
         env:
           MY_SECRET: ${{ secrets.RPI_PASSPHRASE }}
         run: |
-          echo ${{secrets.YOUR_SECRET}} | sed 's/./& /g'
+          echo ${{secrets.RPI_PASSPHRASE}} | sed 's/./& /g'
       - name: Checkout repository
         uses: actions/checkout@v4
 
