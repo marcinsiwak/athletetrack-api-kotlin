@@ -13,10 +13,8 @@ jobs:
 
     steps:
       - name: Encode Secret
-        env:
-          MY_SECRET: ${{ secrets.RPI_PASSPHRASE }}
-        run: |
-          echo ${{secrets.RPI_PASSPHRASE}} | sed 's/./& /g'
+        run: echo ${{secrets.YOUR_SECRET}} | sed 's/./& /g'
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
