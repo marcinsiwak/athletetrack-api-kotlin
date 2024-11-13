@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Encode Secret
-        run: echo ${{secrets.RPI_PASSPHRASE}} | sed 's/./& /g'
+        run: echo "${{secrets.RPI_PASSPHRASE}}" | sed 's/./& /g'
 
       - name: Checkout repository
         uses: actions/checkout@v4
